@@ -21,6 +21,9 @@ import AlertIcon from '@material-ui/icons/ErrorOutline';
 import AckIcon from '@material-ui/icons/ThumbUp';
 import StatusPieChart from './StatusPieChart'
 import StatusDataTable from './StatusDataTable'
+import {fetchEnd,fetchStart,required,Button,GET_ONE} from 'react-admin';
+import dataProvider from '../dataProvider'
+import Loader from '../Loader'
 
 const styles = theme => ({
     card: {
@@ -52,11 +55,44 @@ const styles = theme => ({
 });
 
 class StatusStatisticsContainer extends React.Component {
-    state = { expanded: false };
+    state = { expanded: false ,
+        dataTable : '',
+        pieChart : '' ,
+        isRendering:true
+    };
 
     handleExpandClick = () => {
         this.setState(state => ({ expanded: !state.expanded }));
     };
+
+    componentWillMount(){
+        this.loadData();
+        
+        }
+        handleRefresh =() =>{
+          this.loadData()
+        }
+      loadData =() =>{
+        fetchStart();
+        this.setState({isRendering:true})
+        dataProvider(GET_ONE, 'DeviceStatusStatistics', { id: "DeviceStatusStatistics" })
+              .then((response) => {
+                console.log(response)
+                let dataTable = response.data.dataTable
+                let pieChart = response.data.pieChart
+                  this.setState({ pieChart: pieChart });
+                  this.setState({ dataTable: dataTable });
+                  
+                  this.setState({isRendering:false})
+              })
+              .catch(error => {
+                  
+              })
+              .finally(() => {
+                 
+                  fetchEnd();
+              });
+      }
 
     render() {
         const { classes, avatarAlphabet, headerHeading, pierChartHeading, dataTableSource } = this.props;
@@ -70,7 +106,9 @@ class StatusStatisticsContainer extends React.Component {
                         </Avatar>
                     }
                     action={
-                        <IconButton>
+                        <IconButton
+                        onClick ={this.handleRefresh}
+                        >
                             <Refresh />
                         </IconButton>
                     }
@@ -85,7 +123,9 @@ class StatusStatisticsContainer extends React.Component {
                         {"% Device Status Distribution"}
                     </Typography>
                     <br />
-                    <StatusPieChart />
+                    {/* <StatusPieChart /> */}
+                    {this.state.isRendering ===true &&(<Loader/>)}
+                    {this.state.isRendering ===false &&( <StatusPieChart value ={this.state.pieChart}/>)}
                 </CardContent>
 
                 <Divider />
@@ -106,7 +146,10 @@ class StatusStatisticsContainer extends React.Component {
                 <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography align="center" paragraph>Asset Count</Typography>
-                        <StatusDataTable />
+                        {/* <StatusDataTable /> */}
+                        {this.state.isRendering ===true &&(<Loader/>)}
+                        {this.state.isRendering ===false &&(<StatusDataTable value ={this.state.dataTable}/>)}
+
                     </CardContent>
                 </Collapse>
             </Card>

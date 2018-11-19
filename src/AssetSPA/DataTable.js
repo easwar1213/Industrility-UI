@@ -304,7 +304,7 @@ class EnhancedTable extends React.Component {
     }
    
     this.setState({ selected: newSelected });
-    console.log(newSelected)
+    console.log("newSelected: "+newSelected)
     this.props.action(newSelected)
   };
 

@@ -29,6 +29,9 @@ const styles = theme => ({
 });
 
 
+
+
+
 class SensorGroupTable extends React.Component {
 
     state = {
@@ -44,11 +47,12 @@ class SensorGroupTable extends React.Component {
 
 
     componentDidMount() {
+        console.log(this.props)
         fetchStart();
         dataProvider(GET_LIST, 'getListOfSensorGroups', {
             pagination: { page: 1, perPage: 10 },
             sort: { field: 'title', order: 'ASC' },
-            filter: {},
+            filter: {asset:this.props.record.assetName},
         })
             .then((response) => {
 
@@ -69,10 +73,13 @@ class SensorGroupTable extends React.Component {
         console.log("childProps")
         console.log(childProps)
         this.setState({selectedSensors:childProps})
+        // call dynamoDB t
     }
 
     handleShowSensorList = (item) => {
-
+      //  console.log("handleShowSensorList")
+        //console.log(item)
+       // this.setState({ showSensorGroupList: false })
         this.setState({ selectedSensorGroup: item.sensorGroup })
         fetchStart();
         dataProvider(GET_LIST, 'getListOfSensors', {
@@ -117,7 +124,7 @@ class SensorGroupTable extends React.Component {
         dataProvider(GET_LIST, 'getAssetCurrentData', {
             pagination: { page: 1, perPage: 10 },
             sort: { field: 'title', order: 'ASC' },
-            filter: { projection: projectionString, id:telematicsSerialNumber },
+            filter: { projection: projectionString, id:telematicsSerialNumber, asset:this.props.record.assetName },
         })
             .then((response) => {
                 console.log(response)
@@ -198,7 +205,7 @@ class SensorGroupTable extends React.Component {
                                            <br />
                                             <Grid  item xs ={8}>
                                             <Paper>
-                                            <SensorListDatagraphTabs group={this.state.selectedSensorGroup} data={this.state.selectedSensors} />
+                                            <SensorListDatagraphTabs asset={this.props.record.assetName} group={this.state.selectedSensorGroup} data={this.state.selectedSensors} />
                                             </Paper>
                                             </Grid>
                                       

@@ -2,11 +2,15 @@ import React from 'react';
 //import { List, Datagrid, TextField,EmailField, ReferenceField } from 'react-admin';
 import { BooleanInput, SimpleShowLayout, SimpleList, ReferenceManyField, ReferenceArrayField, SelectArrayInput, Show, ShowButton, Tab, TabbedShowLayout, Filter, List, Edit, Create, Datagrid, ReferenceField, TextField, EditButton, DisabledInput, LongTextInput, ReferenceInput, SelectInput, SimpleForm, TextInput } from 'react-admin';
 
-import Map from './map';
+
+//import BestSellingRegions from './BestSellingRegions';
+import PinWithInfoWindow from './PinWithInfoWindow';
+
+import Mymap from './map';
+
 import SensorGroupTable from './SensorGroupTable'
-
-
 export const AssetList = (props) => (
+    //perPage={5}sort={{ field: 'telematicsSerialNumber', order: 'DESC' }}
     <List title="Assets" {...props} filters={<AssetFilter />}  >
         <Datagrid>
             <TextField source="telematicsSerialNumber" />
@@ -29,11 +33,11 @@ export const showAsset = (props) => (
         <TabbedShowLayout >
 
             <Tab label="Location" >
-                <Map vale="check" />
+                <Mymap vale="check" />
             </Tab>
 
             <Tab label="Data" >
-                <SensorGroupTable />
+                <SensorGroupTable value ={props} />
             </Tab>
 
             <Tab label="Details">
@@ -49,7 +53,7 @@ export const showAsset = (props) => (
             </Tab>
 
             <Tab label="Alerts" filters={<AlertFilter />}>
-                <ReferenceManyField filters={<AlertFilter />}  {...props} label="Alerts" target="telematicsSerialNumber" source="telematicsSerialNumber" reference="getAssetAlerts" >
+                <ReferenceManyField filters={<AlertFilter />} filter={{ asset: props.id }} {...props} label="Alerts" target="telematicsSerialNumber" source="telematicsSerialNumber" reference="getAssetAlerts" >
 
                     {/* <List {...props}filters={<AlertFilter />} filter={{ telematicsSerialNumber:"telematicsSerialNumber"}} title="Alerts"> */}
                     <Datagrid >
@@ -64,7 +68,7 @@ export const showAsset = (props) => (
             </Tab>
 
             <Tab label="Maintenance">
-                <ReferenceManyField filters={<AssetFilter />} label="Maintenance" target="telematicsSerialNumber" source="telematicsSerialNumber" reference="getAssetMaintenance" >
+                <ReferenceManyField filters={<AssetFilter />}filter={{ asset: "Asset3"}} label="Maintenance" target="telematicsSerialNumber" source="telematicsSerialNumber" reference="getAssetMaintenance" >
                     <Datagrid>
                         <TextField source="plan" />
                         <TextField source="serviceRunHours" />
@@ -102,7 +106,7 @@ const AssetFilter = (props) => (
             { id: 'n_1', name: 'Not Communicated Within 24 Hour' },
             { id: 'n_7', name: 'Not Communicated Within 7 days' },
             { id: 'n_30', name: 'Not Communicated Within 30 days' },
-            { id: 'n', name: 'Not Communicated Ever' }
+            { id: 'o_0', name: 'Not Communicated Ever' }
         ]} />
 
     </Filter>

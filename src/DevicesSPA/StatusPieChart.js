@@ -5,11 +5,9 @@ import Paper from "@material-ui/core/Paper";
 
 
 
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
-const getState = () => ({
+
+const getState = (props) => ({
     labels: [
         '% Unavailable',
         '% Avaiable',
@@ -17,7 +15,7 @@ const getState = () => ({
 
 
     datasets: [{
-        data: [50,50],
+        data: (props.value)?[props.value.unavaiableDevicePercentage,props.value.availableDevicePercentage]:[0,0],
         backgroundColor: [
             '#D81B60',
             '#81C784',
@@ -41,14 +39,15 @@ class StatusPieChart extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            data: getState(),
-            options: options
+            props:props,
+            data: getState(props),
+            options:options
         };
     }
 
     componentWillMount() {
         //setInterval(() => {
-        this.setState({ data: getState() });
+        this.setState({data: getState(this.props)});
         this.setState({ options: options });
 
         // }, 4000);

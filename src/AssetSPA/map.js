@@ -4,11 +4,13 @@ import { compose, withProps, withStateHandlers } from 'recompose'
 import { GoogleMap, Marker, withGoogleMap, withScriptjs, InfoWindow } from 'react-google-maps';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 import CloseIcon from 'mdi-react/CloseIcon';
-
+//import data from './smallData.json';
 import { fetchStart, fetchEnd, GET_MANY_REFERENCE, showNotification } from 'react-admin';
 import dataProvider from '../dataProvider';
 import Grid from "@material-ui/core/Grid";
-
+//import {Col, Container, Row} from 'reactstrap';
+//import Card from '@material-ui/core/Card';
+// Map.
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -18,11 +20,14 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 let tableData = [], EndDate = '', StartDate = '';
-export default class Map extends React.Component {
+export default class Mymap extends React.Component {
 
+    // State.
+
+    //  state = {markers: []}
     constructor(props) {
         super(props)
-
+        //  console.log(this.props)
 
         this.state = {
             markers: [],
@@ -34,71 +39,39 @@ export default class Map extends React.Component {
 
     }
 
-    componentDidMount() {
-        this.loadData();
-    }
-
-
-    loadData() {
-
-        const { record} = this.props
-        console.log(this.state)
-
-        fetchStart();
-        dataProvider(GET_MANY_REFERENCE, 'getProjectedAssetData', {
-            pagination: { page: 1, perPage: 5 },
-            sort: { field: 'title', order: 'ASC' },
-            filter: { id: record.id, attribute: 'gps', startDate: this.state.startDate, endDate: this.state.endDate },
-            target: 'telematicsSerialNumber',
-            id: record.telematicsSerialNumber,
-            sort: { field: 'created_at', order: 'DESC' }
-        })
-
-            .then((response) => {
-                let maps = response.data
-                tableData = response.data
-                this.setState({ maps })
-              
-            })
-            .catch(error => {
-                showNotification(error.message, 'error');
-            })
-            .finally(() => {
-                fetchEnd();
-
-
-            });
-     
-
-    }
-
-    loadData = this.loadData.bind(this)
     handleStartDateChange(e) {
         console.log("start date")
        // let startDate = e.target.value
         StartDate =e.target.value;
-
+       // console.log(startDate)
+       // this.setState({ startDate })
          console.log(this.state)
     }
     handleStartDateChange = this.handleStartDateChange.bind(this);
 
 
     handleEndDateChange(e) {
+        console.log("end date")
         //let endDate = e.target.value
        EndDate = e.target.value
+       // console.log(endDate)
        // this.setState({ endDate })
-      
+          console.log(this.state)
     }
     handleEndDateChange = this.handleEndDateChange.bind(this);
 
 
 
     handleClickSubmit() {
-
+        console.log("Clicked")
+         console.log(EndDate)
+         console.log(StartDate)
          this.state.endDate =EndDate;
          this.state.startDate = StartDate
         // this.setState({endDate : EndDate})
         // this.setState({startDate : StartDate})
+         console.log(this.state)
+        // console.log("Clicked")
         this.loadData();
         
     }
@@ -211,6 +184,60 @@ export default class Map extends React.Component {
 
     }
 
+    // Did Mount.
+    componentDidMount() {
+        this.loadData();
+    }
+
+
+    loadData() {
+
+        const { record} = this.props
+        console.log(this.state)
+        console.log(this.props)
+
+        fetchStart();
+        dataProvider(GET_MANY_REFERENCE, 'getProjectedAssetData', {
+            pagination: { page: 1, perPage: 5 },
+            sort: { field: 'title', order: 'ASC' },
+            filter: { id: record.id, attribute: 'gps', startDate: this.state.startDate, endDate: this.state.endDate },
+            target: 'telematicsSerialNumber',
+            id: record.telematicsSerialNumber,
+            sort: { field: 'created_at', order: 'DESC' }
+        })
+
+            .then((response) => {
+                //console.log(response.data)
+
+                let maps = response.data
+                tableData = response.data
+                this.setState({ maps })
+                // console.log(this.state)
+                // Update the main react-admin form (in this case, the comments creation form)
+                // change(REDUX_FORM_NAME, 'post_id', data.id);
+                // this.setState({ showDialog: false });
+                //showNotification('Maintenance Completed')
+
+            })
+            .catch(error => {
+                showNotification(error.message, 'error');
+            })
+            .finally(() => {
+                // Dispatch an action letting react-admin know a API call has ended
+
+                fetchEnd();
+
+
+            });
+        // let markers = data.photos
+
+        // this.setState({ markers })
+
+    }
+
+    loadData = this.loadData.bind(this)
+
+
 }
 
 
@@ -263,6 +290,28 @@ class AssetMarker extends React.Component {
                 )}
             </Marker>
 
+            //     <Marker key={photo_id} position={{ lat: latitude, lng: longitude }} onMouseOver={() => this.setState(state => ({open: !state.open}))}  onMouseOut={() => this.setState(state => ({open: !state.open}))}>
+            //     {this.state.open && (
+            //           <InfoWindow options={{ closeBoxURL: ``, enableEventPropagation: true }}>
+            //           <div style={{ backgroundColor: `white`, opacity: 1.00, padding: `20px` }}>
+            //             <div style={{ fontSize: `16px`, fontColor: `#08233B` }} >
+
+
+            //             <b> Location: </b> <span>{longitude} , {latitude} </span>
+            //              <br/>
+            //              <br/>
+            //             <b> Date: </b> {(new Date()).toDateString()}
+            //              <br/>
+            //              <br/>
+            //             <b> Speed:</b> 0.00 km/h
+            //             <br/>
+            //              <br/>
+            //             <b> Heading:</b> 0˚
+            //               </div>
+            //           </div>
+            //         </InfoWindow>
+            //     )}
+            //   </Marker>
         )
 
     }

@@ -44,7 +44,7 @@ class SensorListDataGraphTabs extends React.Component {
 
   render() {
       console.log(this.props)
-    const { classes, theme ,data,group} = this.props;
+    const { classes, theme ,data,group,asset} = this.props;
     const { value } = this.state;
     let array = [0,1,2]
     return (
@@ -75,7 +75,7 @@ class SensorListDataGraphTabs extends React.Component {
             key={item}
             >
                     <TableCell>
-                    <SensorDataChart group={group} chartValue ={item}/>
+                    <SensorDataChart asset={asset} group={group} chartValue ={item}/>
                     </TableCell>    
                  </TableRow>  )
             })}     

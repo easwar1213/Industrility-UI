@@ -7,6 +7,9 @@ import {ComposedChart,LineChart,Bar,Brush, Line, XAxis, YAxis, CartesianGrid, To
 
 
 class SensorDataChart extends PureComponent {
+
+  //get Data from Dynamo
+
 	render () {
         const data = [
             {timeStamp: '2018-09-18', sensorValue: 1.7, },
@@ -18,6 +21,9 @@ class SensorDataChart extends PureComponent {
       ];
        let sensor =this.props.chartValue;
       let group = this.props.group
+      let asset = this.props.asset
+      console.log(asset+":"+group+":"+sensor)
+      
   	return (
     	<ComposedChart width={650} height={250} data={data}
             margin={{top: 7, right: 20, left: 20, bottom: 5}}>
@@ -29,7 +35,9 @@ class SensorDataChart extends PureComponent {
       <Legend/>
       <Brush />
       <Line name ={sensor}yAxisId="left"  dataKey="sensorValue" fill='#413ea0' />
-       
+          {/* <Bar yAxisId="left"  dataKey="% of Capacity" fill='#413ea0' /> */}
+       {/* <Line yAxisId="left" type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{r: 8}}/> */}
+      {/* <Line yAxisId="left" type="monotone" dataKey="Avg Run Hours/Day" stroke="#82ca9d" /> */}
     
       </ComposedChart>
     );

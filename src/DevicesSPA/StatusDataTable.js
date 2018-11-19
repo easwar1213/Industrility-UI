@@ -34,7 +34,9 @@ const rows = [
 ];
 
 function ValidityDataTable(props) {
-  const { classes } = props;
+  const { classes,value } = props;
+  let data =props.value
+  let keys = Object.keys(props.value)
 
   return (
     <Paper className={classes.root}>
@@ -47,13 +49,13 @@ function ValidityDataTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => {
+          {keys.map(id => {
             return (
-              <TableRow key={row.id}>
+              <TableRow key={id}>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {id}
                 </TableCell>
-                 <TableCell numeric>{row.count}</TableCell>
+                 <TableCell numeric>{data[id]}</TableCell>
               </TableRow>
             );
           })}

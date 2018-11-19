@@ -41,9 +41,12 @@ import Typography from '@material-ui/core/Typography';
 
 
 const items = [
-    
+    // { name: '', label: 'Dashboard', icon: <LocationIcon /> },
+    { name: 'getMapViewData', label: 'Map', icon: <LocationIcon /> },
     { name: 'getAssetList', label: 'Assets', icon: <AssetIcon /> },
     { name: 'getDeviceList', label: 'Devices', icon: <DeviceIcon /> },
+    { name: 'getListOfAnalyticsReports', label: 'Analytics', icon: <AnalytcisIcon /> },
+    // { name: 'getListOfCustomers', label: 'Parts', icon: <PartsIcon /> }
 ];
 
 const styles = theme => ({
@@ -94,7 +97,7 @@ class Menu extends React.Component {
 
         const { classes, onMenuClick, translate, logout } = this.props
         return (
-            <div>
+             <div >
                 <Paper className={classes.root} elevation={11}>
                     <div className={classes.root} >
                         {/* <DashboardMenuItem onClick={onMenuClick} /> */}
@@ -109,32 +112,118 @@ class Menu extends React.Component {
                             />
                         ))}
                     </div>
+                    <div className={classes.root}>
+                        <List>
+                            <ListItem className={classes.item} button onClick={this.handleClick}>
+                                <ListItemIcon>
+                                    <MaintenanceIcon />
+                                </ListItemIcon>
+                                <ListItemText className={classes.item2}
+                                disableTypography 
+                                primary={<Typography variant="subheading" color="textSecondary" >Maintenance</Typography>}
+                                />
+                                {this.state.open ? <ExpandLess /> : <ExpandMore />}
+                            </ListItem>
+                            <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    <ListItem className={classes.nested} >
+                                        <ListItemIcon>
+                                            <MenuItemLink to="/getMaintenance" className={classes.item3} primaryText="Dashboard" onClick={onMenuClick} />
+                                        </ListItemIcon>
+                                    </ListItem>
 
-                                        
-  
-                  
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+                                    <ListItem button className={classes.nested} >
+                                        <ListItemIcon>
+                                            <MenuItemLink to="/getListOfMaintenancePlan" className={classes.item3}  primaryText="Maintenance Plan" onClick={onMenuClick} />
+                                        </ListItemIcon>
+                                    </ListItem>
+
+                                    <ListItem button className={classes.nested} >
+                                        <ListItemIcon>
+                                            <MenuItemLink to="/getMaintenanceHistory" className={classes.item3} primaryText="Maintenance History" onClick={onMenuClick} />
+                                        </ListItemIcon>
+                                    </ListItem>
+                                </List>
+                            </Collapse>
+                        </List>
+                    </div>
+
+                    <div className={classes.root}>
+                        <List
+                            component="nav"
+                        >
+                            <ListItem className={classes.item} button onClick={this.handleClickAlert}>
+                                <ListItemIcon>
+                                    <AlertDashboard />
+                                </ListItemIcon>
+                                <ListItemText className={classes.item2}
+                                 disableTypography 
+                                 primary={<Typography variant="subheading" color="textSecondary" >Alerts</Typography>}
+                                />
+                                {this.state.openAlert ? <ExpandLess /> : <ExpandMore />}
+                            </ListItem>
+                            <Collapse in={this.state.openAlert} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    <ListItem className={classes.nested} >
+                                        <ListItemIcon>
+                                            <MenuItemLink to="/getAlerts" className={classes.item3}  primaryText="Dashboard" onClick={onMenuClick} />
+                                        </ListItemIcon>
+                                    </ListItem>
+
+                                    <ListItem button className={classes.nested} >
+                                        <ListItemIcon>
+                                            <MenuItemLink to="/getAlerstHistory" className={classes.item3}  primaryText="Historical Alerts" onClick={onMenuClick} />
+                                        </ListItemIcon>
+                                    </ListItem>
+
+                                    <ListItem button className={classes.nested} >
+                                        <ListItemIcon>
+                                            <MenuItemLink to="/getListOfAlertConfiguration" className={classes.item3} primaryText="Alert Configuration" onClick={onMenuClick} />
+                                        </ListItemIcon>
+                                    </ListItem>
+                                </List>
+                            </Collapse>
+                        </List>
+                    </div>
+
+
+
+                    <div className={classes.root}>
+                        <List>
+                            <ListItem className={classes.item} button onClick={this.handleClickParts}>
+                                <ListItemIcon>
+                                    <PartsIcon />
+                                </ListItemIcon>
+                                <ListItemText className={classes.item2}
+                                  disableTypography 
+                                  primary={<Typography variant="subheading" color="textSecondary" >Parts</Typography>}
+                                 />
+                                {this.state.openParts ? <ExpandLess color="textSecondary" /> : <ExpandMore color="textSecondary" />}
+                            </ListItem>
+                            <Collapse in={this.state.openParts} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    {/* <ListItem className={classes.nested} >
+                                    <ListItemIcon>
+                                        <MenuItemLink to="/getListOfCustomers" primaryText="Customers" onClick={onMenuClick} />
+                                    </ListItemIcon>
+                                </ListItem> */}
+
+                                    <ListItem button className={classes.nested} >
+                                        <ListItemIcon>
+                                            <MenuItemLink to="/getPartsStatus" className={classes.item3} primaryText="Dashboard" onClick={onMenuClick} />
+                                        </ListItemIcon>
+                                    </ListItem>
+                                    {/*
+                                <ListItem button className={classes.nested} >
+                                    <ListItemIcon>
+                                        <MenuItemLink to="/getListOfAlertConfiguration" primaryText="Alert Configuration" onClick={onMenuClick} />
+                                    </ListItemIcon>
+                                </ListItem> */}
+                                </List>
+                            </Collapse>
+                        </List>
+                    </div>
+
                     <br />
                     <br />
                     <br />
@@ -147,8 +236,8 @@ class Menu extends React.Component {
                     <br />
                     <br />
 
-                    {/* <Divider /> */}
-                    {/* <div className={classes.root}>
+                    <Divider />
+                    <div className={classes.root}>
                         <List>
                             <ListItem className={classes.item} button >
                                 <ListItemIcon>
@@ -160,7 +249,7 @@ class Menu extends React.Component {
                                  />
                             </ListItem>
                         </List>
-                    </div>*/}
+                    </div>
                     <div className={classes.root}>
                         <List>
                             <ListItem className={classes.item} button onClick ={this.changeRoute} >
@@ -174,7 +263,7 @@ class Menu extends React.Component {
                                  />
                             </ListItem>
                         </List>
-                    </div> 
+                    </div>
 
 
 

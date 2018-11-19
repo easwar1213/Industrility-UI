@@ -5,8 +5,8 @@ import DollarIcon from '@material-ui/icons/AttachMoney';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { translate } from 'react-admin';
-
-
+import CustomizedTable from './CustomTable';
+import CardIcon from './CardIcon';
 import Divider from '@material-ui/core/Divider';
 import Table from '@material-ui/core/Table';
 import Grid from "@material-ui/core/Grid";
